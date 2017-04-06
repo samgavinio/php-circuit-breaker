@@ -47,7 +47,7 @@ abstract class AbstractDataStore
      *
      * @param boolean $isOpen
      */
-    abstract public function toggleCircuit($isOpen);
+    abstract public function setCircuitIsOpen($isOpen);
 
     /**
      * Increment the success counter

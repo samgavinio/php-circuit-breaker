@@ -68,7 +68,7 @@ class RedisDataStore extends AbstractDataStore
     /**
      * {@inheritDoc}
      */
-    public function toggleCircuit($isOpen)
+    public function setCircuitIsOpen($isOpen)
     {
         $key = $this->prefixKey($this->serviceName . '_is_open');
 

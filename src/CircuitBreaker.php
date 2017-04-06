@@ -80,7 +80,7 @@ class CircuitBreaker
         if ($this->dataStore->getErrorPercentage() < $this->config['allowedErrorPercentage']) {
             return false;
         } else {
-            $this->dataStore->toggleCircuit(true);
+            $this->dataStore->setCircuitIsOpen(true);
 
             return true;
         }
@@ -112,7 +112,7 @@ class CircuitBreaker
         try {
             $callback();
             if ($this->dataStore->isOpen()) {
-                $this->dataStore->toggleCircuit(true);
+                $this->dataStore->setCircuitIsOpen(false);
                 $this->dataStore->resetRequestStats();
             }
 
