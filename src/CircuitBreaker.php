@@ -140,6 +140,6 @@ class CircuitBreaker
             throw new RuntimeException($message, 0, $e);
         }
 
-        call_user_func($this->failureFallback, $e);
+        call_user_func($this->failureFallback, $e ? $e : new Exception($message));
     }
 }
