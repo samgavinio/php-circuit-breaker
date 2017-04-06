@@ -1,0 +1,21 @@
+{
+    "name": "zendesk/php_circuit_breaker",
+    "description": "Resiliency for PHP using the Circuit Breaker pattern",
+    "authors": [
+        {
+            "name": "Sam Gavinio",
+            "email": "sgavinio@zendesk.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Zendesk\\PHPCircuitBreaker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zendesk\\PHPCircuitBreaker\\Tests\\": "tests/"
+        }
+    }
+}
