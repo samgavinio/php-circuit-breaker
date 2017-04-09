@@ -40,7 +40,7 @@ class CircuitBreaker
      * Class contructor
      *
      * @param string $service
-     * @param DataStoreInterface $dataStore
+     * @param AbstractDataStore $dataStore
      * @param array $config
      * @param function $failureCallback
      */
@@ -98,7 +98,7 @@ class CircuitBreaker
     }
 
     /**
-     * Determine if the a trial request should be attempted.
+     * Determine if a trial request should be attempted.
      *
      * @return boolean
      */
@@ -120,7 +120,7 @@ class CircuitBreaker
     }
 
     /**
-     * Execute the wrapper service call
+     * Execute the wrapped service call
      *
      * @param function $callback
      */
