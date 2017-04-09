@@ -31,9 +31,9 @@ class CircuitBreaker
      * The circuit configuration
      */
     private $config = [
-        'enabled' => true,
-        'requestCountThreshold' => 2,
-        'allowedErrorPercentage' => 50
+        'requestCountThreshold' => 10,
+        'allowedErrorPercentage' => 50,
+        'testWaitInMilliSeconds' => 5000,
     ];
 
     /**
@@ -72,7 +72,7 @@ class CircuitBreaker
         /**
          * Only run the open circuit logic if the request threshold has been exceeded.
          */
-         $requestCount = $this->dataStore->getTotalRequests();
+        $requestCount = $this->dataStore->getTotalRequests();
         if ($requestCount < $this->config['requestCountThreshold']) {
             return false;
         }
@@ -81,6 +81,7 @@ class CircuitBreaker
             return false;
         } else {
             $this->dataStore->setCircuitIsOpen(true);
+            $this->dataStore->setOpenCircuitTimestamp();
 
             return true;
         }
@@ -93,7 +94,29 @@ class CircuitBreaker
      */
     public function allowRequest()
     {
-        return !$this->isOpen();
+        return !$this->isOpen() || $this->allowTestRequest();
+    }
+
+    /**
+     * Determine if the a trial request should be attempted.
+     *
+     * @return boolean
+     */
+    public function allowTestRequest()
+    {
+        $lastOpenCircuitTime = $this->dataStore->getOpenCircuitTimestamp();
+
+        if ($lastOpenCircuitTime) {
+            $now = microtime(true);
+            $deltaMillis = round($now - $lastOpenCircuitTime, 3) * 1000;
+            if ($deltaMillis > $this->config['testWaitInMilliSeconds']) {
+                $this->dataStore->setOpenCircuitTimestamp();
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -60,6 +60,20 @@ abstract class AbstractDataStore
     abstract public function addFailure();
 
     /**
+     * Sets the last open circuit timestamp in microtime
+     *
+     * @return string
+     */
+    abstract public function setOpenCircuitTimestamp($microtime);
+
+    /**
+     * Retrieves the last open circuit timestamp in microtime
+     *
+     * @return string
+     */
+    abstract public function getOpenCircuitTimestamp();
+
+    /**
      * Set the service name
      *
      * @param string $serviceName

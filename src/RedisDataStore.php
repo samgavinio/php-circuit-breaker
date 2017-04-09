@@ -71,8 +71,31 @@ class RedisDataStore extends AbstractDataStore
     public function setCircuitIsOpen($isOpen)
     {
         $key = $this->prefixKey($this->serviceName . '_is_open');
-
         $this->client->set($key, $isOpen);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOpenCircuitTimestamp($microtime = null)
+    {
+        if ($microtime === null) {
+            $microtime = microtime(true);
+        }
+
+        $key = $this->prefixKey($this->serviceName . '_open_circuit_timestamp');
+        $this->client->set($key, $microtime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOpenCircuitTimestamp()
+    {
+        $key = $this->prefixKey($this->serviceName . '_open_circuit_timestamp');
+        $microtime =  $this->client->get($key);
+
+        return $microtime;
     }
 
     /**
